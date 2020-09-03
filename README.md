@@ -1,43 +1,53 @@
-[![boods](https://circleci.com/gh/boods/UdacityDevOpsProject.svg?style=svg)](https://github.com/boods/UdacityDevOpsProject)
+[![boods](https://circleci.com/gh/boods/UdacityDevOpsProject.svg?style=svg)](https://app.circleci.com/pipelines/github/boods/UdacityDevOpsProject)
 
 
-## Project Overview
+## Project Summary
 
-In this project, you will apply the skills you have acquired in this course to operationalize a Machine Learning Microservice API. 
+This is a project submission for the "Operationalize a Machine Learning Microservice API". The project takes a pre-trained sklean model used by a python flask application, to predict house prices in Boston, and walks through four key processes in automating build and deployment of the application to a kubernetes cluster.
 
-You are given a pre-trained, `sklearn` model that has been trained to predict housing prices in Boston according to several features, such as average rooms in a home and data about highway access, teacher-to-pupil ratios, and so on. You can read more about the data, which was initially taken from Kaggle, on [the data source site](https://www.kaggle.com/c/boston-housing). This project tests your ability to operationalize a Python flask app—in a provided file, `app.py`—that serves out predictions (inference) about housing prices through API calls. This project could be extended to any pre-trained machine learning model, such as those for image recognition and data labeling.
+Firstly, a Makefile was written that automates the install of the required python libraries, and runs lint of the application and deployment code.
 
-### Project Tasks
+Secondly, a Dockerfile was prepared based on an inherited python3 container, which deploys the python application code to the new container, uses the same commands proven in step one to install python libraries, exposes port 80, and launches the application. The dockerfile can be used locally to build and run the resulting docker image. When successful, the resulting image was uploaded to dockerhub. 
 
-Your project goal is to operationalize this working, machine learning microservice using [kubernetes](https://kubernetes.io/), which is an open-source system for automating the management of containerized applications. In this project you will:
-* Test your project code using linting
-* Complete a Dockerfile to containerize this application
-* Deploy your containerized application using Docker and make a prediction
-* Improve the log statements in the source code for this application
-* Configure Kubernetes and create a Kubernetes cluster
-* Deploy a container using Kubernetes and make a prediction
-* Upload a complete Github repo with CircleCI to indicate that your code has been tested
+Thirdly, a local kubernetes cluster was setup, and kutectl commands used to create a deployment, based on the image from dockerhub. A bash script was written to automate the deployment and port forwarding process to allow the application to be tested. 
 
-You can find a detailed [project rubric, here](https://review.udacity.com/#!/rubrics/2576/view).
+Lastly, a continuous integration project was setup for the application by uploading the project to github, and using CircleCI, a cloud based CI service. 
+Markdown to show the build results was added to the github README for the repo. 
 
-**The final implementation of the project will showcase your abilities to operationalize production microservices.**
 
----
+## Instructions
 
-## Setup the Environment
+### Setup, Install and Linting using Make
 
-* Create a virtualenv and activate it
-* Run `make install` to install the necessary dependencies
+1. To setup: `make setup` and `source ~/.devops/bin/activate`
+2. To install: `make install`
+3. To lint: `make lint`
 
-### Running `app.py`
+### Building and running using docker
+1. To build and run: `./run_docker.sh`
+2. To test, in another terminal window: `./make_prediction.sh`
+3. To upload to docker hub: `./upload_docker.sh`
 
-1. Standalone:  `python app.py`
-2. Run in Docker:  `./run_docker.sh`
-3. Run in Kubernetes:  `./run_kubernetes.sh`
+### Deployment to Kuberetes
+1. Ensure you have a Kubernetes Minikube installed
+2. Start minikube: `minikube start`
+3. Download and deploy the docker image: `./run_kubernetes.sh`
 
-### Kubernetes Steps
+Note: There is a simple 5 second sleep in the run_kubernetes.sh bash file, that attempts to let the kubernetes pods spin up before trying to port forward. 
+If this is not long enough, it's ok to rerun the script once the pods are running. 
 
-* Setup and Configure Docker locally
-* Setup and Configure Kubernetes locally
-* Create Flask app in Container
-* Run via kubectl
+## Files
+
+| File                 | Purpose                                                                                                                   |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| app.py               | The main python flask application                                                                                         | 
+| Dockerfile           | Dockerfile to deploy the application, install python requirements, expose port 80 and launch the application              | 
+| make_predication.sh  | Bash script for testing the model with a curl POST call to port 8000                                                      |
+| Makefile             | Makefile to setup, install python requirements, lint the Dockerfile with hadolint and lint the python script using pylint |
+| requirements.txt     | List of python libraries used by the application                                                                          | 
+| run_docker.sh        | Bash script to build and launch the docker image                                                                          |
+| run_kubernetes.sh    | Bash script to deploy the docker image from dockerhub to a local kubernetes cluster                                       |
+| upload_docker.sh     | Bash script to push the built docker image to dockerhub                                                                   |
+| .circleci/config.yml | Config file for circleci build service                                                                                    |
+
+
