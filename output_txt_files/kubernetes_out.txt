@@ -1,0 +1,9 @@
+(.devops) phil@XWING:/mnt/c/projects/udacity/CloudDevOps/Microservices/DevOps_Microservices/project-ml-microservice-kubernetes$ ./run_kubernetes.sh 
+deployment.apps/devops-project created
+NAME                              READY   STATUS              RESTARTS   AGE
+devops-project-7478c955b6-b58qt   0/1     ContainerCreating   0          0s
+devops-project-7478c955b6-n2vb8   0/1     Terminating         0          91s
+Waiting 5 seconds for pods to spin up...
+Forwarding from 127.0.0.1:8000 -> 80
+Forwarding from [::1]:8000 -> 80
+Handling connection for 8000
