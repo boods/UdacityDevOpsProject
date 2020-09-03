@@ -49,5 +49,7 @@ If this is not long enough, it's ok to rerun the script once the pods are runnin
 | run_kubernetes.sh    | Bash script to deploy the docker image from dockerhub to a local kubernetes cluster                                       |
 | upload_docker.sh     | Bash script to push the built docker image to dockerhub                                                                   |
 | .circleci/config.yml | Config file for circleci build service                                                                                    |
+| output_txt_files/    | Contains two files `docker_out.txt` and `kubernetes_out.txt` showing the successful output of task 3 and task 6           |
+
 
 
