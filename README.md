@@ -1,4 +1,7 @@
 <include a CircleCI status badge, here>
+# Template:
+[![boods](https://circleci.com/gh/boods/UdacityDevOpsProject.svg?style=svg)](https://github.com/boods/UdacityDevOpsProject)
+
 
 ## Project Overview
 
